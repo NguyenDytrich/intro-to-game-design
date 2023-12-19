@@ -47,6 +47,17 @@ public class Snake : MonoBehaviour
         float time = Time.time;
         if (time - LastMoveTime >= (1.0f / UnitsPerSecond))
         {
+
+            // Move all the other segments!
+            for (int i = Segments.Count - 1; i > 0; i--)
+            {
+                Segments[i].transform.position = new Vector3(
+                    Segments[i - 1].transform.position.x,
+                    Segments[i - 1].transform.position.y,
+                    Segments[i - 1].transform.position.z
+                );
+            }
+
             // Copy over the values of the Head's position
             // This will make the segment follow the head!
             Segments[0].transform.position = new Vector3(
