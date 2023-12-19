@@ -17,6 +17,7 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Segments.Add(Head);
         for (int i = 0; i < 5; i++)
         {
             GameObject segment = Instantiate(SegmentPrefab);
@@ -57,14 +58,6 @@ public class Snake : MonoBehaviour
                     Segments[i - 1].transform.position.z
                 );
             }
-
-            // Copy over the values of the Head's position
-            // This will make the segment follow the head!
-            Segments[0].transform.position = new Vector3(
-                Head.transform.position.x,
-                Head.transform.position.y,
-                Head.transform.position.z
-            );
 
             Head.transform.position += Direction;
             LastMoveTime = time;
