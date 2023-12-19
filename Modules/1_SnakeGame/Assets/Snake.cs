@@ -17,8 +17,11 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject firstSegment = Instantiate(SegmentPrefab);
-        Segments.Add(firstSegment);
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject segment = Instantiate(SegmentPrefab);
+            Segments.Add(segment);
+        }
     }
 
     // Update is called once per frame
