@@ -7,13 +7,21 @@ public class Snake : MonoBehaviour
     public float UnitsPerSecond = 1.0f;
     public GameObject Head;
 
+    public GameObject SegmentPrefab;
+    public List<GameObject> Segments;
+
     private float LastMoveTime = 0.0f;
     private Vector3 Direction = Vector3.up;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject segment = Instantiate(SegmentPrefab);
+            Segments.Add(segment);
+        }
     }
 
     // Update is called once per frame
@@ -39,6 +47,25 @@ public class Snake : MonoBehaviour
         float time = Time.time;
         if (time - LastMoveTime >= (1.0f / UnitsPerSecond))
         {
+
+            // Move all the other segments!
+            for (int i = Segments.Count - 1; i > 0; i--)
+            {
+                Segments[i].transform.position = new Vector3(
+                    Segments[i - 1].transform.position.x,
+                    Segments[i - 1].transform.position.y,
+                    Segments[i - 1].transform.position.z
+                );
+            }
+
+            // Copy over the values of the Head's position
+            // This will make the segment follow the head!
+            Segments[0].transform.position = new Vector3(
+                Head.transform.position.x,
+                Head.transform.position.y,
+                Head.transform.position.z
+            );
+
             Head.transform.position += Direction;
             LastMoveTime = time;
         }
