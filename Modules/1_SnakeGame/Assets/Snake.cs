@@ -44,6 +44,14 @@ public class Snake : MonoBehaviour
         float time = Time.time;
         if (time - LastMoveTime >= (1.0f / UnitsPerSecond))
         {
+            // Copy over the values of the Head's position
+            // This will make the segment follow the head!
+            Segments[0].transform.position = new Vector3(
+                Head.transform.position.x,
+                Head.transform.position.y,
+                Head.transform.position.z
+            );
+
             Head.transform.position += Direction;
             LastMoveTime = time;
         }
