@@ -13,20 +13,7 @@ public class Snake : MonoBehaviour
     private float LastMoveTime = 0.0f;
     private Vector3 Direction = Vector3.up;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Segments.Add(Head);
-        for (int i = 0; i < 5; i++)
-        {
-            GameObject segment = Instantiate(SegmentPrefab);
-            Segments.Add(segment);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
+    void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -44,22 +31,43 @@ public class Snake : MonoBehaviour
         {
             Direction = Vector3.right;
         }
+    }
+
+    void MoveSnake()
+    {
+        // Move all the other segments!
+        for (int i = Segments.Count - 1; i > 0; i--)
+        {
+            Segments[i].transform.position = new Vector3(
+                Segments[i - 1].transform.position.x,
+                Segments[i - 1].transform.position.y,
+                Segments[i - 1].transform.position.z
+            );
+        }
+
+        Head.transform.position += Direction;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Segments.Add(Head);
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject segment = Instantiate(SegmentPrefab);
+            Segments.Add(segment);
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        HandleInput();
 
         float time = Time.time;
         if (time - LastMoveTime >= (1.0f / UnitsPerSecond))
         {
-
-            // Move all the other segments!
-            for (int i = Segments.Count - 1; i > 0; i--)
-            {
-                Segments[i].transform.position = new Vector3(
-                    Segments[i - 1].transform.position.x,
-                    Segments[i - 1].transform.position.y,
-                    Segments[i - 1].transform.position.z
-                );
-            }
-
-            Head.transform.position += Direction;
+            MoveSnake();
             LastMoveTime = time;
         }
     }
