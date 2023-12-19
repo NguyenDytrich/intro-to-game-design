@@ -8,6 +8,7 @@ public class Snake : MonoBehaviour
     public GameObject Head;
 
     private float LastMoveTime = 0.0f;
+    private Vector3 Direction = Vector3.up;
 
     // Start is called before the first frame update
     void Start()
@@ -18,10 +19,27 @@ public class Snake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            Direction = Vector3.up;
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            Direction = Vector3.left;
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            Direction = Vector3.down;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            Direction = Vector3.right;
+        }
+
         float time = Time.time;
         if (time - LastMoveTime >= (1.0f / UnitsPerSecond))
         {
-            Head.transform.position += Vector3.up;
+            Head.transform.position += Direction;
             LastMoveTime = time;
         }
     }
